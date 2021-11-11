@@ -7,7 +7,7 @@ create table if not exists track_list(
     track_id varchar(40) primary key,
     track_name text,
     duration varchar(40),
-    album_id varchar(40)
+    album_id varchar(40) references album_list(album_id)
 );
 
 create table if not exists collections_list(
@@ -28,16 +28,16 @@ create table if not exists album_list(
 );
 
 create table if not exists track_collections(
-    track_id varchar(40) primary key references track_list(track_id),
+    track_id varchar(40) primary key(track_id, collection_id) references track_list(track_id),
     collection_id varchar(40) references collections_list(collections_id)
 );
 
 create table if not exists artist_genre(
-    genre_id varchar(40) primary key references genre_list(genre_id) references  collections_list(collections_id),
+    genre_id varchar(40) primary key(artist_id, genre_id) references genre_list(genre_id) references  collections_list(collections_id),
     artist_id varchar(40) references artist_list(artist_id)
 );
 
 create table if not exists artist_album(
-    artist_id varchar(40) primary key references artist_list(artist_id),
+    artist_id varchar(40) primary key(artist_id, album_id) references artist_list(artist_id),
     album_id varchar(40) references album_list(album_id)
 );
